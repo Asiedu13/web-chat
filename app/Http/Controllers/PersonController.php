@@ -43,7 +43,7 @@ class PersonController extends Controller
         
         $user->save();
 
-        return redirect()->route('chat.index');
+        return redirect()->route('chat.index', ['username' => $user->email]);
     }
 
     /**

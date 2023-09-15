@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Typing;
+use App\Events\SentChat;
 use App\Models\ChatRoom;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class ChatRoomController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('chat');
+        return view('chat', [
+            'username' => $request->input('username')
+        ]);
     }
 
     /**
@@ -61,5 +66,25 @@ class ChatRoomController extends Controller
     public function destroy(ChatRoom $chatRoomm)
     {
         //
+    }
+
+    public function sendMessage(Request $request)
+    {
+        event(new SentChat(
+            $request->input('message'),
+            $request->input('username')
+        ));
+        return response()->json([
+            'status' => true
+        ], 200);
+    }
+
+    public function sending(Request $request)
+    {
+        event(new Typing($request->input('username')));
+
+        return response()->json([
+            'status' => true
+        ], 200);
     }
 }

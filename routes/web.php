@@ -18,5 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::resource('/user', PersonController::class);
-Route::resource('/chat', ChatRoomController::class);
+// Route::resource('/chat', ChatRoomController::class);
+Route::get('/chat', [ChatRoomController::class, 'index'])->name('chat.index');
+Route::post('/chat/sendMessage', [ChatRoomController::class, 'sendMessage'])->name('chat.sendMessage');
 
+Route::post('/chat/sending', [ChatRoomController::class, 'sending']);
