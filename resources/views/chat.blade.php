@@ -27,7 +27,7 @@
         </div>
         <div class="rounded-xl w-[700px] h-[700px] border-solid border-2 border-slate-200 my-[10px] mx-[10px] ">
             <header class="border-solid border-y-2 border-slate-200 h-[85px] p-[1rem]">
-                <h2>{{$username}}</h2>
+                <h2 class="text-stone-400 capitalize">{{$username}}</h2>
                 <p id="user_status" class="m-[10px] "></p>
             </header>
             

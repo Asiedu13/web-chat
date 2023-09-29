@@ -3,7 +3,7 @@
 @section('main')
     <div class="border-1 border-solid border-slate-200 h-[600px] w-[90vw] flex flex-col items-center  mt-[70px] m-[auto]">
         {{-- <div> --}}
-            <h2 class='text-3xl font-bold underline my-[30px]'>Sign Up</h2>
+            <h2 class='text-3xl font-bold my-[30px]'>Sign Up</h2>
             
             <form action="{{route('user.store')}}" method="POST" class="shadow-2xl h-[400px] w-[400px] p-[2rem] rounded-lg">
                 @csrf

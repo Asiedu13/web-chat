@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Person;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StorePersonRequest;
 use Illuminate\Support\Facades\Validator;
@@ -27,6 +28,44 @@ class PersonController extends Controller
         return view('registration');
     }
 
+
+    public function login(Request $request)
+    {
+        $validatedRequest = Validator::make($request->all(), 
+        [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if($validatedRequest->fails())
+        {
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => $validatedRequest->errors(),
+                ], 401
+            );
+        }
+
+        if(!Auth::attempt($request->only(['email', 'password'])))
+        {
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => 'Invalid email or password',
+                ], 401
+            );
+        }
+        $user = Person::where('email', $request->email)->first();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Login successful',
+            'token' => $user->createToken('API_TOKEN')->plainTextToken,
+            'data' => $user
+        ]);
+
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -45,6 +84,8 @@ class PersonController extends Controller
 
         return redirect()->route('chat.index', ['username' => $user->email]);
     }
+
+
 
     /**
      * Display the specified resource.
